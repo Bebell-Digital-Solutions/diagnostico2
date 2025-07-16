@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Salud Empresarial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="container header-content">
+            <div class="logo">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span class="logo-text">Bebell Digital Solutions</span>
+            </div>
+            <div class="theme-switcher">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sun-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle-checkbox">
+                    <span class="slider"></span>
+                </label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="moon-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Vista del Formulario -->
+        <div id="form-view">
+            <div class="intro-text">
+                <h1>Diagnóstico de Salud Empresarial</h1>
+                <p>Selecciona la respuesta que mejor refleje tu realidad actual (no tus aspiraciones).</p>
+            </div>
+
+            <div id="progress-container" class="progress-sticky">
+                <div class="progress-bar-info">
+                    <span class="progress-label">Progreso del Diagnóstico</span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-background">
+                    <div id="progress-bar" class="progress-bar-foreground"></div>
+                </div>
+            </div>
+
+            <div id="sections-grid">
+                <!-- Las tarjetas de las secciones se insertarán aquí con JS -->
+            </div>
+
+            <div class="form-actions">
+                <p id="form-error" class="error-message"></p>
+                <button id="generate-report-btn" class="main-button" disabled>Ver mi Diagnóstico y Plan de Acción</button>
+            </div>
+        </div>
+
+        <!-- Vista del Reporte -->
+        <div id="report-view" style="display: none;">
+            <div class="report-header">
+                <div>
+                    <h1>Tu Reporte de Salud Empresarial</h1>
+                    <p>Un resumen de tu estado actual y los próximos pasos recomendados.</p>
+                </div>
+                <div class="report-buttons">
+                    <button id="back-to-form-btn" class="secondary-button">Volver al Formulario</button>
+                    <button id="download-pdf-btn" class="main-button">Descargar PDF</button>
+                </div>
+            </div>
+            
+            <div id="report-content" class="report-content-area">
+                <!-- Contenido para el PDF -->
+                <div class="pdf-header">
+                    <div class="logo">
+                       <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                       <div>
+                            <h2 class="pdf-title">Bebell Digital Solutions</h2>
+                            <p class="pdf-subtitle">Reporte de Salud Empresarial</p>
+                       </div>
+                    </div>
+                    <p id="report-date" class="pdf-date"></p>
+                </div>
+
+                <div class="report-section page-break-avoid">
+                    <h3>Diagnóstico General y Áreas de Enfoque</h3>
+                    <div id="action-plan-content" class="plan-text"></div>
+                </div>
+
+                <div class="report-section page-break-avoid">
+                    <h3>Resumen Visual por Área</h3>
+                    <div class="chart-container">
+                        <canvas id="results-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="report-section page-break-before">
+                    <h3>Resumen de tus Respuestas</h3>
+                    <div id="answers-summary" class="answers-grid"></div>
+                </div>
+                
+                <div class="pdf-footer">
+                    <p>© <span id="current-year"></span> Bebell Digital Solutions. Todos los derechos reservados.</p>
+                    <p>Este reporte es confidencial y generado para uso personal.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
